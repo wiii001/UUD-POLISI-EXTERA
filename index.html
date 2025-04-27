@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator UUD Extera RP Lengkap</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+    .container {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      max-width: 1000px;
+      margin: 50px auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #333;
+      color: white;
+    }
+    td {
+      background-color: #222;
+    }
+    .btn {
+      background: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px 5px 0 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn:hover {
+      background: #45a049;
+    }
+    .kelas-ringan { background: #4CAF50; }
+    .kelas-sedang { background: #FFEB3B; }
+    .kelas-berat { background: #F44336; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Kalkulator UUD Extera RP</h1>
+  <input type="text" id="search" class="search-box" placeholder="Cari Pasal...">
+  
+  <table id="pasal-table">
+    <thead>
+      <tr>
+        <th>Kode Pasal</th>
+        <th>Nama Pasal</th>
+        <th>Denda</th>
+        <th>Hukuman</th>
+        <th>Kelas</th>
+        <th>Pilih</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Pasal-pasal akan ditampilkan di sini -->
+    </tbody>
+  </table>
+  
+  <div class="hasil" id="hasil">
+    <p>Total Denda: $<span id="totalDenda">0</span></p>
+    <p>Total Hukuman: <span id="totalHukuman">0</span> Bulan</p>
+  </div>
+  <button class="btn" onclick="hitungTotal()">Hitung Total</button>
+  <button class="btn" onclick="resetSemua()">Reset</button>
+</div>
+
+<script>
+const pasalData = [
+  { kode: '0.1', nama: 'Tidak membawa KTP', denda: 2000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.2', nama: 'Pencemaran nama baik instansi', denda: 3000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.3', nama: 'Memberikan informasi palsu', denda: 2000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.4', nama: 'Menyalahgunakan hotline', denda: 1000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.5', nama: 'Membuat kekerasan terhadap warga', denda: 3000, hukuman: 7, kelas: 'kelas-ringan' },
+  { kode: '0.6', nama: 'Tidak melengkapi atribut berkendara', denda: 2500, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.7', nama: 'Memakai hal tidak senonoh di keramaian', denda: 1000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.8', nama: 'Melakukan hal tidak senonoh di keramaian', denda: 2000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '0.9', nama: 'Penipuan terhadap warga', denda: 4000, hukuman: 7, kelas: 'kelas-ringan' },
+  { kode: '1.0', nama: 'Melakukan pembegalan terhadap warga', denda: 5000, hukuman: 7, kelas: 'kelas-ringan' },
+  { kode: '1.1', nama: 'Menghina faction', denda: 4000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '1.2', nama: 'Mengganggu ketertiban umum/provokator', denda: 2000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '1.3', nama: 'Mengemudi tanpa helm', denda: 1000, hukuman: 5, kelas: 'kelas-ringan' },
+  { kode: '1.4', nama: 'Mengemudi secara ugal-ugalan', denda: 2000, hukuman: 'Impound', kelas: 'kelas-ringan' },
+  { kode: '1.5', nama: 'Mengemudi di jalur yang salah', denda: 2000, hukuman: 'Impound', kelas: 'kelas-ringan' },
+  { kode: '1.6', nama: 'Mengemudi tanpa SIM', denda: 1500, hukuman: 25, kelas: 'kelas-ringan' },
+  { kode: '1.7', nama: 'Pemasangan nitro', denda: 2000, hukuman: 20, kelas: 'kelas-ringan' },
+  { kode: '1.8', nama: 'Balapan di jalan ilegal', denda: 3000, hukuman: 30, kelas: 'kelas-ringan' },
+  { kode: '2.0', nama: 'Berupaya melawan petugas kepolisian', denda: 3000, hukuman: 10, kelas: 'kelas-sedang' },
+  { kode: '2.1', nama: 'Sengaja atau tidak sengaja di lokasi peperangan', denda: 2000, hukuman: 7, kelas: 'kelas-sedang' },
+  { kode: '2.2', nama: 'Upaya menyogok petugas kepolisian', denda: 5000, hukuman: 7, kelas: 'kelas-sedang' },
+  { kode: '2.3', nama: 'Berada di zona merah/tempat ilegal', denda: 3000, hukuman: 8, kelas: 'kelas-sedang' },
+  { kode: '2.4', nama: 'Pengedar barang ilegal narkoba atau narkotika', denda: 5000, hukuman: 10, kelas: 'kelas-sedang' },
+  { kode: '2.5', nama: 'Mencoba kabur dari tempat federal', denda: 3000, hukuman: 9, kelas: 'kelas-sedang' },
+  { kode: '2.6', nama: 'Membawa barang ilegal', denda: 2000, hukuman: 9, kelas: 'kelas-sedang' },
+  { kode: '2.7', nama: 'Mencoba kabur dari kejaran kepolisian', denda: 3000, hukuman: 9, kelas: 'kelas-sedang' },
+  { kode: '2.8', nama: 'Menyalahgunakan atribut kepolisian', denda: 2000, hukuman: 7, kelas: 'kelas-sedang' },
+  { kode: '2.9', nama: 'Pencurian kendaraan ilegal', denda: 4000, hukuman: 10, kelas: 'kelas-sedang' },
+  { kode: '3.0', nama: 'Melakukan proses narkotika/narkoba', denda: 3000, hukuman: 8, kelas: 'kelas-sedang' },
+  { kode: '3.1', nama: 'Membawa uang merah - 100-500$', denda: 2000, hukuman: 10, kelas: 'kelas-sedang' },
+  { kode: '3.2', nama: 'Pemburuan hewan secara ilegal', denda: 4000, hukuman: 10, kelas: 'kelas-sedang' },
+  { kode: '3.3', nama: 'Percobaan pembunuhan', denda: 10000, hukuman: 40, kelas: 'kelas-sedang' },
+  { kode: '3.4', nama: 'Penyerangan terhadap warga', denda: 12000, hukuman: 30, kelas: 'kelas-sedang' },
+  { kode: '3.5', nama: 'Merampok seseorang dengan senjata tajam/tumpul', denda: 8000, hukuman: 25, kelas: 'kelas-sedang' },
+  { kode: '3.6', nama: 'Stalking', denda: 5000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '3.7', nama: 'Defamation (fitnah)', denda: 5000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '3.8', nama: 'Rape (pemerkosaan)', denda: 7000, hukuman: 30, kelas: 'kelas-sedang' },
+  { kode: '3.9', nama: 'Kidnapping (penculikan)', denda: 10000, hukuman: 30, kelas: 'kelas-sedang' },
+  { kode: '4.0', nama: 'Fraud (penipuan)', denda: 6000, hukuman: 15, kelas: 'kelas-sedang' },
+  { kode: '4.1', nama: 'Menunda atau mengganggu proses hukum', denda: 8000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '4.2', nama: 'Menyerang polisi dengan senjata tajam/tumpul', denda: 8000, hukuman: 25, kelas: 'kelas-sedang' },
+  { kode: '4.3', nama: 'Menyimpan/menyembunyikan penjahat', denda: 8000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '4.4', nama: 'Saksi palsu', denda: 8000, hukuman: 15, kelas: 'kelas-sedang' },
+  { kode: '4.5', nama: 'Menghancurkan/menyembunyikan/memalsukan bukti', denda: 8000, hukuman: 15, kelas: 'kelas-sedang' },
+  { kode: '4.6', nama: 'Perjudian ilegal', denda: 8000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '4.7', nama: 'Illegal demonstration', denda: 8000, hukuman: 20, kelas: 'kelas-sedang' },
+  { kode: '4.8', nama: 'Perusakan barang milik negara', denda: 5000, hukuman: '20 Bulan + Sanksi Sosial', kelas: 'kelas-sedang' },
+  { kode: '5.0', nama: 'Melakukan penyanderaan terhadap warga', denda: 4000, hukuman: 15, kelas: 'kelas-berat' },
+  { kode: '5.1', nama: 'Melakukan penyanderaan terhadap faction', denda: 5000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '5.2', nama: 'Melakukan perampokan warung', denda: 4000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '5.3', nama: 'Melakukan perampokan bank besar', denda: 5000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '5.4', nama: 'Peperangan antar kelompok', denda: 5000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '5.5', nama: 'Melakukan penembakan terhadap warga', denda: 7000, hukuman: 25, kelas: 'kelas-berat' },
+  { kode: '5.6', nama: 'Korupsi', denda: 'Riset Harta', hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '5.7', nama: 'Shooting on publics', denda: 8000, hukuman: 20, kelas: 'kelas-berat' },
+  { kode: '5.8', nama: 'Pembunuhan terhadap warga negara', denda: 10000, hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '5.9', nama: 'Penyelundupan barang terlarang', denda: 8000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '6.0', nama: 'Penyerangan terhadap pejabat publik', denda: 8000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '6.1', nama: 'Terorisme', denda: 15000, hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '6.2', nama: 'Pelanggaran berat terhadap hak asasi manusia', denda: 10000, hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '6.3', nama: 'Perdagangan manusia', denda: 12000, hukuman: 40, kelas: 'kelas-berat' },
+  { kode: '6.4', nama: 'Penyiksaan terhadap tahanan', denda: 10000, hukuman: 30, kelas: 'kelas-berat' },
+  { kode: '6.5', nama: 'Penyalahgunaan wewenang besar', denda: 15000, hukuman: 40, kelas: 'kelas-berat' },
+  { kode: '6.6', nama: 'Pembunuhan berencana', denda: 20000, hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '6.7', nama: 'Membakar properti publik', denda: 10000, hukuman: 40, kelas: 'kelas-berat' },
+  { kode: '6.8', nama: 'Pemberontakan terhadap negara', denda: 20000, hukuman: 'Seumur Hidup / Mati', kelas: 'kelas-berat' },
+  { kode: '6.9', nama: 'Menyembunyikan pelaku kejahatan besar', denda: 12000, hukuman: 35, kelas: 'kelas-berat' },
+  { kode: '7.0', nama: 'Melakukan penyelundupan senjata api', denda: 15000, hukuman: 40, kelas: 'kelas-berat' }
+];
+
+const pasalTable = document.querySelector("#pasal-table tbody");
+const searchBox = document.getElementById("search");
+
+function generateTableRows() {
+  pasalTable.innerHTML = '';
+  pasalData.forEach((pasal) => {
+    const row = document.createElement("tr");
+    row.classList.add(pasal.kelas);
+
+    row.innerHTML = `
+      <td>${pasal.kode}</td>
+      <td>${pasal.nama}</td>
+      <td>${pasal.denda}</td>
+      <td>${pasal.hukuman}</td>
+      <td class="${pasal.kelas}">${capitalize(pasal.kelas.replace('-', ' '))}</td>
+      <td><input type="checkbox" value="${pasal.kode}" data-denda="${pasal.denda}" data-hukuman="${pasal.hukuman}"></td>
+    `;
+    pasalTable.appendChild(row);
+  });
+}
+
+function capitalize(str) {
+  return str.replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+function hitungTotal() {
+  const checkedPasal = document.querySelectorAll('input[type="checkbox"]:checked');
+  let totalDenda = 0;
+  let totalHukuman = 0;
+
+  checkedPasal.forEach(pasal => {
+    totalDenda += parseInt(pasal.dataset.denda);
+    totalHukuman += parseInt(pasal.dataset.hukuman);
+  });
+
+  document.getElementById("totalDenda").textContent = totalDenda;
+  document.getElementById("totalHukuman").textContent = totalHukuman;
+}
+
+function resetSemua() {
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+  document.getElementById("totalDenda").textContent = 0;
+  document.getElementById("totalHukuman").textContent = 0;
+}
+
+searchBox.addEventListener("input", (e) => {
+  const searchTerm = e.target.value.toLowerCase();
+  const rows = pasalTable.querySelectorAll("tr");
+  rows.forEach((row) => {
+    const pasalNama = row.cells[1].textContent.toLowerCase();
+    row.style.display = pasalNama.includes(searchTerm) ? "" : "none";
+  });
+});
+
+generateTableRows();
+</script>
+</body>
+</html>
