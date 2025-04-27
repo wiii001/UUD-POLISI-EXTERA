@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulasi Layanan Kepolisian dan Instansi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            font-size: 1.2em;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ffcc00;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px 0;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin: 20px 0;
+            color: #ffcc00;
+            text-align: center;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ffcc00, #ff6600);
+        }
+
+        .styled-table thead {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        .styled-table tbody tr {
+            background-color: #444;
+            transition: background-color 0.3s ease;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #555;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #505050;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        footer p {
+            font-size: 1em;
+            color: #ffcc00;
+            opacity: 0.8;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ffcc00;
+        }
+
+        .calc-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Regulasi Layanan Kepolisian dan Instansi</h1>
+            <p> Berikut adalah regulasi untuk di Kepolisian kota EXTERA.</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="#sim">SIM</a>
+            <a href="#plat">Plat Kendaraan</a>
+            <a href="#skck">SKCK & Izin</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="sim">
+            <h2>Biaya Pembuatan dan Perpanjangan SIM</h2>
+            <div class="checkbox-group">
+                <input type="checkbox" id="simA" value="$1.500">
+                <label for="simA">Pembuatan SIM A - 1500</label><br>
+                <input type="checkbox" id="simB" value="$2.500">
+                <label for="simB">Pembuatan SIM B - 2500</label><br>
+                <input type="checkbox" id="simC" value="$1.000">
+                <label for="simC">Pembuatan SIM C - 1000</label><br>
+                <input type="checkbox" id="perpanjangSimA" value="$1.500">
+                <label for="perpanjangSimA">Perpanjang SIM A - 1500</label><br>
+                <input type="checkbox" id="perpanjangSimB" value="$1.500">
+                <label for="perpanjangSimB">Perpanjang SIM B - $1.500</label><br>
+                <input type="checkbox" id="perpanjangSimC" value="$5.00">
+                <label for="perpanjangSimC">Perpanjang SIM C - $5.00</label><br>
+            </div>
+        </section>
+
+        <section id="plat">
+            <h2>Biaya Pembuatan Plat Kendaraan</h2>
+            <div class="checkbox-group">
+                <input type="checkbox" id="platBMX" value="0">
+                <label for="platBMX">Sepeda BMX - Gratis</label><br>
+                <input type="checkbox" id="platMotor" value="$1.500">
+                <label for="platMotor">Motor - 1500</label><br>
+                <input type="checkbox" id="platMobil" value="$2.500">
+                <label for="platMobil">Mobil - $2.500</label><br>
+                <input type="checkbox" id="platImport" value="10000">
+                <label for="platImport">Kendaraan Import - $1.0000</label><br>
+            </div>
+        </section>
+
+        <section id="skck">
+            <h2>Biaya Layanan SKCK & Izin</h2>
+            <div class="checkbox-group">
+                <input type="checkbox" id="skck" value="$1.000">
+                <label for="skck">Pembuatan SKCK - 1000</label><br>
+                <input type="checkbox" id="izinKeramaian" value="$1.0000">
+                <label for="izinKeramaian">Surat Izin Keramaian - 10000</label><br>
+                <input type="checkbox" id="izinPengawalan" value="$5.0000">
+                <label for="izinPengawalan">Surat Izin Pengawalan - $5.0000</label><br>
+                <input type="checkbox" id="lisensiSenjata" value="$2.0000">
+                <label for="lisensiSenjata">Lisensi Senjata - $2.0000</label><br>
+            </div>
+        </section>
+
+        <div class="calc-section">
+            <button onclick="calculateTotal()" class="button">Hitung Total</button>
+            <div id="totalCost" class="total"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Kontak: <a href="mailto:kontak@polisi-gta.com">@LOS SANTOS POLICE DEPARTEMENT</a></p>
+        <p>&copy; 2025 Regulasi Layanan Kepolisian Kota EXTERA</p>
+    </footer>
+
+    <script>
+        function calculateTotal() {
+            let total = 0;
+
+            // Ambil semua checkbox
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+            checkboxes.forEach(function(checkbox) {
+                total += parseInt(checkbox.value);
+            });
+
+            // Tampilkan total
+            document.getElementById("totalCost").innerText = "Total Biaya: " + total;
+        }
+    </script>
+</body>
+</html>
